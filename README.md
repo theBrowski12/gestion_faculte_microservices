@@ -1,33 +1,23 @@
-🎓 Projet Gestion Faculté
+🎓 Projet Microservices : Gestion Faculté (Étudiants & Filières)
 
-Ce projet est une architecture microservices Spring Boot composée de deux services principaux :
-
-🧩 gestion_filiere : gère les filières (code, libellé, etc.)
-
-👨‍🎓 gestion_etudiant : gère les étudiants et leur rattachement à une filière
-
-Chaque microservice est indépendant, dispose de sa propre base de données, et communique avec les autres via des requêtes REST.
+Ce projet illustre une architecture microservices Spring Boot pour la gestion des étudiants et des filières au sein d’une faculté.
+L’objectif est de démontrer la communication interservices via REST API et Feign Client, avec documentation générée par Swagger OpenAPI.
 
 Remarque : Si la filière existe, on sauvegarde l'étudiant, sinon On le sauvegarde pas !!!
 
+==========================================================================================
 ⚙️ Technologies utilisées
-
-Java 17
-
-Spring Boot 3
-
-Spring Data JPA
-
-MySQL
-
-Spring Web (REST)
-
+Outil / Framework	Utilisation
+Spring Boot 3.x	Base des microservices
+Spring Web	Création des API REST
+Spring Data JPA	Accès à la base de données
+Feign Client (Spring Cloud OpenFeign)	Communication interservices
+Swagger / Springdoc OpenAPI	Documentation interactive
+H2 / MySQL	Base de données
+Maven	Gestion des dépendances
 Lombok
-
-Swagger / Springdoc OpenAPI pour la documentation
-
 Postman pour les tests d’API
-
+==========================================================================================
 Screenshots:
 **Gestion Etudiants:**
 ![img.png](img.png)
