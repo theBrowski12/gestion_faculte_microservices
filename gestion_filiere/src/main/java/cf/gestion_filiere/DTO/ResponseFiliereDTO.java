@@ -1,10 +1,17 @@
 package cf.gestion_filiere.DTO;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter @Setter @AllArgsConstructor @NoArgsConstructor
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseFiliereDTO {
-    private Integer id;
-    private String libelle;
+    private Integer idFiliere;
     private String code;
+    private String libelle;
+
 }

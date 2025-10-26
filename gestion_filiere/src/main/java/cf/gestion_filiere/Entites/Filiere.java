@@ -9,9 +9,11 @@ import lombok.*;
 @Entity
 @Getter @Setter
 @AllArgsConstructor @NoArgsConstructor
+@ToString
 public class Filiere {
-    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private Integer id;
-    private String libelle;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private Integer idFiliere;
     private String code;
+    private String libelle;
 }

@@ -13,4 +13,5 @@ public class ResponseEtudiantDTO {
     private String prenom;
     private String cne;
     private Integer id_filiere;
+    private Filiere filiere;
 }

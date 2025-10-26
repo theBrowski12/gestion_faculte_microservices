@@ -5,12 +5,15 @@ import cf.gestion_filiere.DTO.ResponseFiliereDTO;
 import cf.gestion_filiere.Entites.Filiere;
 import cf.gestion_filiere.Repository.FiliereRepository;
 import cf.gestion_filiere.mappers.FiliereMapper;
+import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class FiliereServiceImpl implements FiliereService {
     private FiliereRepository filiereRepository;
     private FiliereMapper filiereMapper;
@@ -39,8 +42,7 @@ public class FiliereServiceImpl implements FiliereService {
 
     @Override
     public ResponseFiliereDTO getFiliereById(Integer id) {
-        Filiere filiere = filiereRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Filiere not found"));
+        Filiere filiere = filiereRepository.findById(id).orElseThrow();
         return filiereMapper.Filiere_To_DTO(filiere);
     }
 
@@ -53,11 +55,10 @@ public class FiliereServiceImpl implements FiliereService {
     @Override
     public ResponseFiliereDTO updateFiliere(Integer id, RequestFiliereDTO requestFiliereDTO) {
         Filiere nv_filiere = filiereMapper.DTO_to_Filiere(requestFiliereDTO);
-        Filiere filiere = filiereRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Filiere not found"));
+        Filiere filiere = filiereRepository.findById(id).orElseThrow();
 
-        if(nv_filiere.getCode() != null) filiere.setCode(nv_filiere.getCode());
-        if(nv_filiere.getLibelle() != null) filiere.setLibelle(nv_filiere.getLibelle());
+        if(nv_filiere.getCode() !=null) filiere.setCode(nv_filiere.getCode());
+        if(nv_filiere.getLibelle() !=null) filiere.setLibelle(nv_filiere.getLibelle());
 
         Filiere savedFiliere = filiereRepository.save(filiere);
         return filiereMapper.Filiere_To_DTO(savedFiliere);

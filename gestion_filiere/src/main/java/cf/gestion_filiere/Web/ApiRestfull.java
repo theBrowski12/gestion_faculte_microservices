@@ -5,6 +5,7 @@ import cf.gestion_filiere.DTO.ResponseFiliereDTO;
 import cf.gestion_filiere.Service.FiliereServiceImpl;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -78,17 +79,18 @@ public class ApiRestfull {
 
     @Operation(
             summary = "Récupérer une filière par ID",
+            parameters = @Parameter(name = "id", required = true),
             description = "Retourne les informations d’une filière spécifique selon son identifiant.",
             responses = {
                     @ApiResponse(responseCode = "200", description = "Filière trouvée avec succès",
                             content = @Content(mediaType = "application/json",
                                     schema = @Schema(implementation = ResponseFiliereDTO.class))),
-                    @ApiResponse(responseCode = "404", description = "Filière introuvable"),
-                    @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
+                    @ApiResponse(responseCode = "4xx", description = "Filière introuvable"),
+                    @ApiResponse(responseCode = "5xx", description = "Erreur côté serveur")
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseFiliereDTO> getById(@PathVariable int id) {
+    public ResponseEntity<ResponseFiliereDTO> getById(@PathVariable("id") Integer id) {
         ResponseFiliereDTO responseFiliereDTO = filiereService.getFiliereById(id);
         return ResponseEntity.ok(responseFiliereDTO);
     }
