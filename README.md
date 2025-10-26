@@ -25,3 +25,10 @@ Lombok
 Swagger / Springdoc OpenAPI pour la documentation
 
 Postman pour les tests d’API
+
+Screenshots:
+**Gestion Etudiants:**
+![img.png](img.png)
+
+Gestion Filieres:
+![img_1.png](img_1.png)
