@@ -8,6 +8,8 @@ Ce projet est une architecture microservices Spring Boot composée de deux servi
 
 Chaque microservice est indépendant, dispose de sa propre base de données, et communique avec les autres via des requêtes REST.
 
+Remarque : Si la filière existe, on sauvegarde l'étudiant, sinon On le sauvegarde pas !!!
+
 ⚙️ Technologies utilisées
 
 Java 17
