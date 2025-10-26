@@ -7,16 +7,27 @@ Remarque : Si la filière existe, on sauvegarde l'étudiant, sinon On le sauvega
 
 ==========================================================================================
 ⚙️ Technologies utilisées
+
 Outil / Framework	Utilisation
-Spring Boot 3.x	Base des microservices
-Spring Web	Création des API REST
-Spring Data JPA	Accès à la base de données
-Feign Client (Spring Cloud OpenFeign)	Communication interservices
-Swagger / Springdoc OpenAPI	Documentation interactive
-H2 / MySQL	Base de données
-Maven	Gestion des dépendances
-Lombok
-Postman pour les tests d’API
+
+Spring Boot 3.x	Base des microservices.
+
+Spring Web	Création des API REST.
+
+Spring Data JPA	Accès à la base de données.
+
+Feign Client (Spring Cloud OpenFeign)	Communication interservices.
+
+Swagger / Springdoc OpenAPI	Documentation interactive.
+
+H2 / MySQL	Base de données.
+
+Maven	Gestion des dépendances.
+
+Lombok.
+
+Postman pour les tests d’API.
+
 ==========================================================================================
 Screenshots:
 **Gestion Etudiants:**
