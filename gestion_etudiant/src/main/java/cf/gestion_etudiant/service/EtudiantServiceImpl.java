@@ -2,6 +2,7 @@ package cf.gestion_etudiant.service;
 
 import cf.gestion_etudiant.DTO.RequestEtudiantDTO;
 import cf.gestion_etudiant.DTO.ResponseEtudiantDTO;
+import cf.gestion_etudiant.FeignClient.FiliereClient;
 import cf.gestion_etudiant.entity.Etudiant;
 import cf.gestion_etudiant.mapper.EtudiantMapper;
 import cf.gestion_etudiant.models.Filiere;
@@ -14,12 +15,12 @@ import java.util.List;
 
 @Service
 public class EtudiantServiceImpl implements EtudiantService {
-    private RestTemplate restTemplate;
+    private FiliereClient filiereRestClient;
     private EtudiantRepository etudiantRepository;
     private EtudiantMapper etudiantMapper;
 
-    public EtudiantServiceImpl(RestTemplate restTemplate, EtudiantRepository etudiantRepository, EtudiantMapper etudiantMapper) {
-        this.restTemplate = restTemplate;
+    public EtudiantServiceImpl(FiliereClient filiereRestClient, EtudiantRepository etudiantRepository, EtudiantMapper etudiantMapper) {
+        this.filiereRestClient = filiereRestClient;
         this.etudiantRepository = etudiantRepository;
         this.etudiantMapper = etudiantMapper;
     }
@@ -28,10 +29,8 @@ public class EtudiantServiceImpl implements EtudiantService {
     public ResponseEtudiantDTO addEtudiant(RequestEtudiantDTO requestEtudiantDTO) {
         // Vérifier si la filière existe avant de sauvegarder
         try {
-            Filiere filiere = restTemplate.getForObject(
-                    "http://localhost:8081/v1/filieres/" + requestEtudiantDTO.getId_filiere(),
-                    Filiere.class
-            );
+            Filiere filiere = filiereRestClient.getFiliereById(requestEtudiantDTO.getId_filiere());
+
 
             if (filiere == null) {
                 throw new RuntimeException("Filière introuvable !");
@@ -58,10 +57,8 @@ public class EtudiantServiceImpl implements EtudiantService {
 
             try {
                 // Try to get Filiere from gestion_filiere microservice
-                Filiere filiere = restTemplate.getForObject(
-                        "http://localhost:8081/v1/filieres/" + e.getId_filiere(),
-                        Filiere.class
-                );
+                Filiere filiere = filiereRestClient.getFiliereById(e.getId_filiere());
+
                 e.setFiliere(filiere);
             } catch (Exception ex) {
                 // Filiere not found or connection issue — just log and continue
@@ -82,10 +79,8 @@ public class EtudiantServiceImpl implements EtudiantService {
         if (etudiant == null) return null;
 
         // Fetch filiere info from gestion_filiere microservice
-        Filiere filiere = restTemplate.getForObject(
-                "http://localhost:8081/v1/filieres/" + etudiant.getId_filiere(),
-                Filiere.class
-        );
+        Filiere filiere = filiereRestClient.getFiliereById(etudiant.getId_filiere());
+
         etudiant.setFiliere(filiere);
 
         return etudiantMapper.Etudiant_to_DTO(etudiant);
