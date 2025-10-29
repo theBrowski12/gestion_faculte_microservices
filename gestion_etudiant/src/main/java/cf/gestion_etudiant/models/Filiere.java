@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Filiere {
-    //private int id_filiere;
+    private Integer id_filiere;
     private String code;
     private String libelle;
 }

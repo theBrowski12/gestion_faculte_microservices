@@ -60,6 +60,8 @@ public class EtudiantServiceImpl implements EtudiantService {
                 Filiere filiere = filiereRestClient.getFiliereById(e.getId_filiere());
 
                 e.setFiliere(filiere);
+
+                dto.setFiliere(filiere);
             } catch (Exception ex) {
                 // Filiere not found or connection issue — just log and continue
                 System.err.println("⚠ Filiere not found for id " + e.getId_filiere());
