@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifier Étudiant</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="mb-4 text-center">Modifier l'Étudiant</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <!-- Formulaire de modification -->
+            <form th:action="@{'/web/etudiants/modifier/' + ${etudiantId}}"
+                  th:object="${etudiantDTO}" method="post">
+
+                <div class="mb-3">
+                    <label for="nom" class="form-label">Nom</label>
+                    <input type="text" th:field="*{nom}" id="nom" class="form-control" placeholder="Nom" required>
+                </div>
+                <div class="mb-3">
+                    <label for="prenom" class="form-label">Prénom</label>
+                    <input type="text" th:field="*{prenom}" id="prenom" class="form-control" placeholder="Prénom" required>
+                </div>
+                <div class="mb-3">
+                    <label for="cne" class="form-label">CNE</label>
+                    <input type="text" th:field="*{cne}" id="cne" class="form-control" placeholder="CNE" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="idFiliere" class="form-label">Filière</label>
+                    <select th:field="*{idFiliere}" id="idFiliere" class="form-select">
+                        <option th:each="filiere : ${filieres}"
+                                th:value="${filiere.idFiliere}"
+                                th:text="${filiere.libelle}">
+                        </option>
+                    </select>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                <a href="/web/etudiants" class="btn btn-secondary">Annuler</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

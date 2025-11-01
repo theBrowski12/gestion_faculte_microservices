@@ -1,6 +1,8 @@
 package cf.gestion_filiere.WebController;
 
 import cf.gestion_filiere.DTO.RequestFiliereDTO;
+import cf.gestion_filiere.DTO.ResponseFiliereDTO;
+import cf.gestion_filiere.Entites.Filiere;
 import cf.gestion_filiere.Service.FiliereService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,15 +35,24 @@ public class FiliereController {
             return "redirect:/web/filieres";
         }
 
-        // 🟠 MODIFIER
-        @PostMapping("/update/{id}")
-        public String updateFiliere(@PathVariable Integer id,
-                                    @RequestParam String code,
-                                    @RequestParam String libelle) {
-            RequestFiliereDTO dto = new RequestFiliereDTO(code, libelle);
-            filiereService.updateFiliere(id, dto);
-            return "redirect:/web/filieres";
-        }
+    // Ouvrir la page de modification
+    @GetMapping("/modifier/{id}")
+    public String editFiliere(@PathVariable Integer id, Model model) {
+        ResponseFiliereDTO filiereDTO = filiereService.getFiliereById(id); // DTO from service
+        model.addAttribute("filiereId", id);
+        model.addAttribute("filiereDTO", filiereDTO); // bind to DTO, not entity
+        return "ModifierFiliere"; // Thymeleaf template
+    }
+
+    // Sauvegarder la filière modifiée
+    @PostMapping("/modifier/{id}")
+    public String saveFiliere(@PathVariable Integer id,
+                              @ModelAttribute("filiereDTO") RequestFiliereDTO filiereDTO) {
+        filiereService.updateFiliere(id, filiereDTO); // service handles mapping & saving
+        return "redirect:/web/filieres";
+    }
+
+
 
 
     // 🔴 SUPPRIMER

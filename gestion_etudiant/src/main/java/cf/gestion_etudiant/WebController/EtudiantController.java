@@ -1,6 +1,7 @@
 package cf.gestion_etudiant.WebController;
 
 import cf.gestion_etudiant.DTO.RequestEtudiantDTO;
+import cf.gestion_etudiant.DTO.ResponseEtudiantDTO;
 import cf.gestion_etudiant.models.Filiere;
 import cf.gestion_etudiant.service.EtudiantServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -37,18 +38,23 @@ public class EtudiantController {
     }
 
     // MODIFIER
-    @PostMapping("/update/{id}")
-    public String updateEtudiant(@PathVariable Integer id,
-                                 @RequestParam String nom,
-                                 @RequestParam String prenom,
-                                 @RequestParam String cne,
-                                 @RequestParam("idFiliere") Integer idFiliere) {
-        RequestEtudiantDTO dto = new RequestEtudiantDTO(nom, prenom, cne, idFiliere);
-        etudiantService.updateEtudiant(id, dto);
-        return "redirect:/web/etudiants";
+    // Ouvrir la page de modification
+    @GetMapping("/modifier/{id}")
+    public String editEtudiant(@PathVariable Integer id, Model model) {
+        ResponseEtudiantDTO etudiantDTO = etudiantService.getEtudiantById(id);
+        model.addAttribute("etudiantId", id);
+        model.addAttribute("etudiantDTO", etudiantDTO);
+        List<Filiere> filieres = etudiantService.getAllFilieres(); // you need to implement this
+        model.addAttribute("filieres", filieres);//
+        return "ModifierEtudiant";
     }
 
-
+    @PostMapping("/modifier/{id}")
+    public String saveEtudiant(@PathVariable Integer id,
+                               @ModelAttribute("etudiantDTO") RequestEtudiantDTO etudiantDTO) {
+        etudiantService.updateEtudiant(id, etudiantDTO);
+        return "redirect:/web/etudiants";
+    }
     // SUPPRIMER
     @GetMapping("/delete/{id}")
     public String deleteEtudiant(@PathVariable Integer id) {
