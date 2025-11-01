@@ -24,7 +24,8 @@ Ce projet utilise Swagger pour documenter et tester les APIs REST. Swagger fourn
 
 Remarque : Si la filière existe, on sauvegarde l'étudiant, sinon On le sauvegarde pas !!!
 
-==================================================================
+==============================================================
+
 ⚙️ Technologies utilisées
 
 Outil / Framework	Utilisation
@@ -51,8 +52,9 @@ Lombok.
 
 Postman pour les tests d’API.
 
-==================================================================
-Screenshots:
+==============================================================
+
+🖼️ Screenshots:
 **Gestion Filieres Page**
 ![img_2.png](img_2.png)
 Modifier Filiere Page :
