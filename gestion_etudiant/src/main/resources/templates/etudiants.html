@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Étudiants</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Gestion des Étudiants</h2>
+
+    <!-- 🔹 Link back to filieres -->
+    <div class="mb-3 text-end">
+        <a href="http://localhost:8081/web/filieres" class="btn btn-info">Aller aux Filières</a>
+    </div>
+
+    <!-- 🔹 Formulaire d'ajout -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">Ajouter un Étudiant</div>
+        <div class="card-body">
+            <form th:action="@{/web/etudiants/add}" th:object="${newEtudiant}" method="post">
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="text" th:field="*{nom}" placeholder="Nom" class="form-control" required/>
+                    </div>
+                    <div class="col">
+                        <input type="text" th:field="*{prenom}" placeholder="Prénom" class="form-control" required/>
+                    </div>
+                    <div class="col">
+                        <input type="text" th:field="*{cne}" placeholder="CNE" class="form-control" required/>
+                    </div>
+                    <div class="col">
+                        <select th:field="*{idFiliere}" class="form-control" required>
+                            <option value="" disabled selected>Sélectionner une filière</option>
+                            <option th:each="filiere : ${filieres}"
+                                    th:value="${filiere.idFiliere}"
+                                    th:text="${filiere.libelle}">
+                            </option>
+
+                        </select>
+
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success">Ajouter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 🔹 Liste des étudiants -->
+    <table class="table table-striped shadow-sm">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>CNE</th>
+            <th>Filière</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="etudiant : ${etudiants}">
+            <td th:text="${etudiant.idEtudiant}"></td>
+            <td th:text="${etudiant.nom}"></td>
+            <td th:text="${etudiant.prenom}"></td>
+            <td th:text="${etudiant.cne}"></td>
+            <td th:text="${etudiant.filiere != null ? etudiant.filiere.libelle : ''}"></td>
+            <td>
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editModal__${etudiant.idEtudiant}'">Modifier</button>
+
+                <a th:href="@{'/web/etudiants/delete/' + ${etudiant.idEtudiant}}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Voulez-vous vraiment supprimer cet étudiant ?');">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 🔹 Modals pour modifier chaque étudiant -->
+<div th:each="etudiant : ${etudiants}">
+    <div class="modal fade" th:id="'editModal__' + ${etudiant.idEtudiant}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content p-3">
+                <form th:action="@{'/web/etudiants/update/' + ${etudiant.idEtudiant}}" method="post">
+                    <input type="text" name="nom" th:value="${etudiant.nom}" class="form-control mb-2" placeholder="Nom" required/>
+                    <input type="text" name="prenom" th:value="${etudiant.prenom}" class="form-control mb-2" placeholder="Prénom" required/>
+                    <input type="text" name="cne" th:value="${etudiant.cne}" class="form-control mb-2" placeholder="CNE" required/>
+                    <select name="idFiliere" class="form-control mb-2" required>
+                        <option th:each="filiere : ${filieres}"
+                                th:value="${filiere.idFiliere}"
+                                th:text="${filiere.libelle}"
+                                th:selected="${etudiant.filiere != null} ? ${filiere.idFiliere} == ${etudiant.filiere.idFiliere} : false">
+                        </option>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

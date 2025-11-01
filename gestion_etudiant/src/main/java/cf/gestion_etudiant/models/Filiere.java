@@ -1,5 +1,6 @@
 package cf.gestion_etudiant.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Filiere {
-    //private Integer id_filiere;
+    private Integer idFiliere;
     private String code;
     private String libelle;
 }

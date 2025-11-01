@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Filières</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Gestion des Filières</h2>
+    <!-- 🔹 Link to etudiants.html in another microservice -->
+    <div class="mb-3 text-end">
+        <a href="http://localhost:8082/web/etudiants" class="btn btn-info">Aller aux Étudiants</a>
+    </div>
+    <!-- 🔹 Formulaire d'ajout -->
+    <div class="card mb-4">
+        <div class="card-header bg-dark text-white">Ajouter une Filière</div>
+        <div class="card-body">
+            <form th:action="@{/web/filieres/add}" th:object="${newFiliere}" method="post">
+                <div class="row mb-3">
+                    <div class="col">
+                        <input type="text" th:field="*{code}" placeholder="Code de la filière" class="form-control" required/>
+                    </div>
+                    <div class="col">
+                        <input type="text" th:field="*{libelle}" placeholder="Libelle" class="form-control"/>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-success">Ajouter</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 🔹 Liste des filières -->
+    <table class="table table-striped shadow-sm">
+        <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Code</th>
+            <th>Libelle</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="filiere : ${filieres}">
+            <td th:text="${filiere.getIdFiliere()}"></td>
+            <td th:text="${filiere.getCode()}"></td>
+            <td th:text="${filiere.getLibelle()}"></td>
+            <td>
+                <!-- Bouton modifier (ouvre un modal) -->
+                <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editModal__${filiere.idFiliere}'">Modifier</button>
+
+                <!-- Bouton supprimer -->
+                <a th:href="@{'/web/filieres/delete/' + ${filiere.idFiliere}}"
+                   class="btn btn-danger btn-sm"
+                   onclick="return confirm('Voulez-vous vraiment supprimer cette filière ?');">Supprimer</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- 🔹 Modals pour modifier chaque filière -->
+<div th:each="filiere : ${filieres}">
+    <div class="modal fade" th:id="'editModal__' + ${filiere.getIdFiliere()}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{'/web/filieres/update/' + ${filiere.getIdFiliere()}}" method="post">
+                    <input type="text" name="code" th:value="${filiere.getCode()}" class="form-control mb-2" placeholder="Code" required/>
+                    <input type="text" name="libelle" th:value="${filiere.getLibelle()}" class="form-control" placeholder="Libelle"/>
+                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

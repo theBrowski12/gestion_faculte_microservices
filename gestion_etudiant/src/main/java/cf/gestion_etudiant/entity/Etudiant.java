@@ -16,7 +16,7 @@ public class Etudiant {
     private String nom;
     private String prenom;
     private String cne;
-    private Integer id_filiere;
+    private Integer idFiliere;
     @Transient //pour ne pas créer une colonne dans la base de données
     private Filiere filiere;
 }

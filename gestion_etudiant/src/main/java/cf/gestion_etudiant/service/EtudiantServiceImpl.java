@@ -29,7 +29,7 @@ public class EtudiantServiceImpl implements EtudiantService {
     public ResponseEtudiantDTO addEtudiant(RequestEtudiantDTO requestEtudiantDTO) {
         // Vérifier si la filière existe avant de sauvegarder
         try {
-            Filiere filiere = filiereRestClient.getFiliereById(requestEtudiantDTO.getId_filiere());
+            Filiere filiere = filiereRestClient.getFiliereById(requestEtudiantDTO.getIdFiliere());
 
 
             if (filiere == null) {
@@ -37,7 +37,7 @@ public class EtudiantServiceImpl implements EtudiantService {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException("Filière introuvable : id = " + requestEtudiantDTO.getId_filiere());
+            throw new RuntimeException("Filière introuvable : id = " + requestEtudiantDTO.getIdFiliere());
         }
 
         // Si la filière existe, on sauvegarde l'étudiant
@@ -57,14 +57,14 @@ public class EtudiantServiceImpl implements EtudiantService {
 
             try {
                 // Try to get Filiere from gestion_filiere microservice
-                Filiere filiere = filiereRestClient.getFiliereById(e.getId_filiere());
+                Filiere filiere = filiereRestClient.getFiliereById(e.getIdFiliere());
 
                 e.setFiliere(filiere);
 
                 dto.setFiliere(filiere);
             } catch (Exception ex) {
                 // Filiere not found or connection issue — just log and continue
-                System.err.println("⚠ Filiere not found for id " + e.getId_filiere());
+                System.err.println("⚠ Filiere not found for id " + e.getIdFiliere());
                 e.setFiliere(null);
             }
 
@@ -81,7 +81,7 @@ public class EtudiantServiceImpl implements EtudiantService {
         if (etudiant == null) return null;
 
         // Fetch filiere info from gestion_filiere microservice
-        Filiere filiere = filiereRestClient.getFiliereById(etudiant.getId_filiere());
+        Filiere filiere = filiereRestClient.getFiliereById(etudiant.getIdFiliere());
 
         etudiant.setFiliere(filiere);
 
@@ -101,10 +101,19 @@ public class EtudiantServiceImpl implements EtudiantService {
         if(nv_etudiant.getNom()!= null){ etudiant.setNom(nv_etudiant.getNom());}
         if (nv_etudiant.getPrenom()!= null){ etudiant.setPrenom(nv_etudiant.getPrenom());}
         if (nv_etudiant.getCne()!= null) { etudiant.setCne(nv_etudiant.getCne());}
-        if (nv_etudiant.getId_filiere()!= null){etudiant.setId_filiere(nv_etudiant.getId_filiere());}
+        if (nv_etudiant.getIdFiliere()!= null){etudiant.setIdFiliere(nv_etudiant.getIdFiliere());}
 
         Etudiant saved_etudiant = etudiantRepository.save(etudiant);
 
         return etudiantMapper.Etudiant_to_DTO(saved_etudiant);
+    }
+    public List<Filiere> getAllFilieres() {
+        try {
+            // Example: call a Feign client method that returns List<Filiere>
+            return filiereRestClient.getAllFilieres();
+        } catch (Exception e) {
+            System.err.println("⚠ Impossible de récupérer les filières : " + e.getMessage());
+            return new ArrayList<>();
+        }
     }
 }

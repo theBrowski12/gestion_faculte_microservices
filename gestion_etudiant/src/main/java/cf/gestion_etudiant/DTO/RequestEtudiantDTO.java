@@ -11,5 +11,5 @@ public class RequestEtudiantDTO {
     private String nom;
     private String prenom;
     private String cne;
-    private Integer id_filiere;
+    private Integer idFiliere;
 }

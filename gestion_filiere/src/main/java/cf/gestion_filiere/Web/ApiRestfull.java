@@ -71,7 +71,7 @@ public class ApiRestfull {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<List<ResponseFiliereDTO>> getAll() {
         List<ResponseFiliereDTO> responseFiliereDTOs = filiereService.getAllFilieres();
         return ResponseEntity.ok(responseFiliereDTOs);
