@@ -4,6 +4,7 @@ import cf.gestion_filiere.DTO.RequestFiliereDTO;
 import cf.gestion_filiere.DTO.ResponseFiliereDTO;
 import cf.gestion_filiere.Entites.Filiere;
 import cf.gestion_filiere.Service.FiliereService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -54,9 +55,8 @@ public class FiliereController {
 
 
 
-
     // 🔴 SUPPRIMER
-        @GetMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
         public String deleteFiliere(@PathVariable Integer id) {
             filiereService.deleteFiliere(id);
             return "redirect:/web/filieres";

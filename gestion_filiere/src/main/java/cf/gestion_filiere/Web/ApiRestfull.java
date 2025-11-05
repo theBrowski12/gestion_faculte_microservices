@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,12 +56,12 @@ public class ApiRestfull {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseFiliereDTO> add(@RequestBody RequestFiliereDTO requestFiliereDTO) {
         ResponseFiliereDTO responseFiliereDTO = filiereService.addFiliere(requestFiliereDTO);
         return ResponseEntity.ok(responseFiliereDTO);
     }
-
     @Operation(
             summary = "Afficher toutes les filières",
             description = "Retourne la liste complète des filières enregistrées.",
@@ -71,6 +72,7 @@ public class ApiRestfull {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @GetMapping("/all")
     public ResponseEntity<List<ResponseFiliereDTO>> getAll() {
         List<ResponseFiliereDTO> responseFiliereDTOs = filiereService.getAllFilieres();
@@ -89,6 +91,7 @@ public class ApiRestfull {
                     @ApiResponse(responseCode = "5xx", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseFiliereDTO> getById(@PathVariable("id") Integer id) {
         ResponseFiliereDTO responseFiliereDTO = filiereService.getFiliereById(id);
@@ -104,6 +107,7 @@ public class ApiRestfull {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         filiereService.deleteFiliere(id);
@@ -128,6 +132,7 @@ public class ApiRestfull {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseFiliereDTO> update(@PathVariable int id,@RequestBody RequestFiliereDTO requestFiliereDTO) {
         ResponseFiliereDTO responseFiliereDTO = filiereService.updateFiliere(id, requestFiliereDTO);

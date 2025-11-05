@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.servers.Server;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,6 +55,7 @@ public class ApiRestfull_Etudiant {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseEtudiantDTO> addEtudiant(@RequestBody RequestEtudiantDTO requestEtudiantDTO) {
         ResponseEtudiantDTO responseEtudiantDTO = etudiantService.addEtudiant(requestEtudiantDTO);
@@ -70,6 +72,7 @@ public class ApiRestfull_Etudiant {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @GetMapping
     public ResponseEntity<List<ResponseEtudiantDTO>> getAllEtudiants() {
         List<ResponseEtudiantDTO> responseEtudiantDTOS = etudiantService.getAllEtudiants();
@@ -92,6 +95,7 @@ public class ApiRestfull_Etudiant {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<ResponseEtudiantDTO> getbyid(@PathVariable Integer id) {
         ResponseEtudiantDTO responseEtudiantDTO = etudiantService.getEtudiantById(id);
@@ -122,6 +126,7 @@ public class ApiRestfull_Etudiant {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<ResponseEtudiantDTO> Update(@PathVariable Integer id, @RequestBody RequestEtudiantDTO requestEtudiantDTO) {
         ResponseEtudiantDTO e = etudiantService.updateEtudiant(id, requestEtudiantDTO);
@@ -142,6 +147,7 @@ public class ApiRestfull_Etudiant {
                     @ApiResponse(responseCode = "500", description = "Erreur côté serveur")
             }
     )
+    @PreAuthorize("hasAuthority('SCOPE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         etudiantService.deleteEtudiant(id);
